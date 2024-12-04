@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <input type="number" min="1" max="100" step="1" />
+      <button type="button" data-create>Create</button>
+      <button type="button" data-destroy>Destroy</button>
+    </div>
+
+    <div id="boxes"></div>
+  </body>
+  <script>
+    const boxesDiv = document.querySelector("#boxes");
+    const myInput = document.querySelector("#controls input");
+    const createButton = document.querySelector("[data-create]");
+    const destroyButton = document.querySelector("[data-destroy]");
+
+    createButton.addEventListener("click", () => {
+      let amount = parseInt(myInput.value);
+      if (amount >= 1 && amount <= 100) {
+        destroyBoxes();
+        createBoxes(amount);
+      } else {
+        alert("Amount must be in range from 1 to 100!");
+      }
+      myInput.value = "";
+    });
+
+    destroyButton.addEventListener("click", () => {
+      destroyBoxes();
+    });
+
+    function createBoxes(amount) {
+      let initialSize = "30px";
+      for (let i = 0; i < amount; i++) {
+        const box = document.createElement("div");
+        box.style.width = initialSize;
+        box.style.height = initialSize;
+        box.style.backgroundColor = getRandomHexColor();
+        box.style.margin = "20px";
+        boxesDiv.appendChild(box);
+        initialSize = parseInt(initialSize.slice(0, -2)) + 10;
+        initialSize += "px";
+      }
+    }
+
+    function destroyBoxes() {
+      boxesDiv.innerHTML = "";
+    }
+
+    function getRandomHexColor() {
+      return `#${Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, 0)}`;
+    }
+  </script>
+</html>
